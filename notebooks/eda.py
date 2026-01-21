@@ -1,9 +1,8 @@
-from data import dados
+from data.dados import load_data
 from logger_config import setup_logger
-import matplotlib.pyplot as plt
-import seaborn as sns
+
 # Dados
-dados =dados.load_data()
+dados = load_data('data/cancer_mama.csv')
 
 # logger = setup_logger("EDA", "logs/eda.log")
 
