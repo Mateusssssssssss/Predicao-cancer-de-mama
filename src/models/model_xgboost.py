@@ -2,8 +2,8 @@ from sklearn.model_selection import cross_val_score
 from xgboost import XGBClassifier
 from notebooks.preprocess import * 
 
-xg = XGBClassifier(objective='multi:softprob', # Objetivo de classificação multiclasse
-    eval_metric='aucpr',            # Métrica de avaliação
+xg = XGBClassifier(objective='binary:logistic', # Objetivo de classificação binária
+    eval_metric='auc',            # Métrica de avaliação
     n_estimators=1000,             # Número de árvores
     learning_rate=1e-1,           # Taxa de aprendizado
     max_depth=30,                  # Profundidade das árvores
@@ -19,4 +19,5 @@ xg = XGBClassifier(objective='multi:softprob', # Objetivo de classificação mul
 results = cross_val_score(xg, x_train, y_train, cv=3)
 print(f'Cross Validation: {results}')
 
+# Treinamento do modelo
 xg.fit(x_train, y_train)

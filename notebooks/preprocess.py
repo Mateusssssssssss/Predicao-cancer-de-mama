@@ -9,12 +9,13 @@ dados = load_data('data/cancer_mama.csv')
 target = dados['diagnosis']
 previsores = dados.drop(columns=['diagnosis'])
 
-def encode_target(y):
+# Transformar coluna categorica em numérica
+def encode_dados(y):
     le = LabelEncoder()
-    y_encoded = le.fit_transform(y)
-    return y_encoded, le
+    dados_encoded = le.fit_transform(y)
+    return dados_encoded, le
 
-target, encoder = encode_target(target)
+target, encoder = encode_dados(target)
 encoder.classes_
 print(f'Classes do target: {encoder.classes_}')
 
