@@ -49,8 +49,8 @@ def log_metrics(metrics, model_name="Modelo"):
     """
     logger.info("Metricas %s", model_name)
     logger.info("AUC-ROC: %.3f", metrics["auc-roc"])
-    logger.info("Relatorio de classificação:\n%s", metrics["classification_report"])
-    logger.info("Matriz de confusão:\n%s", metrics["confusion_matrix"])
+    logger.info("Relatorio de classificacao:\n%s", metrics["classification_report"])
+    logger.info("Matriz de confusao:\n%s", metrics["confusion_matrix"])
 
 
 # Explicação das métricas:
@@ -70,7 +70,7 @@ def log_metrics(metrics, model_name="Modelo"):
 results_xg = metrics(y_test, pred_labels_xg, pred_proba_xg)
 # Exibição das métricas
 print(f"AUC-ROC: {results_xg['auc-roc']:.3f}")
-print("Relatório de Classificação:")
+print("Relatório de Classificacao:")
 print(results_xg["classification_report"])
 print("Matriz de Confusão:")
 print(results_xg["confusion_matrix"])
