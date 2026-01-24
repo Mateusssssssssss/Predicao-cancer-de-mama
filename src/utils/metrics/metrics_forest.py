@@ -17,32 +17,34 @@ def metrics(y_true, pred_labels, pred_proba):
     - Classification Report
     - Matriz de Confusão
     """
+
+    # Checagem simples de segurança
+    if len(set(y_true)) < 2:
+        raise ValueError("y_true precisa ter pelo menos duas classes para calcular AUC.")
+    if len(y_true) != len(pred_labels) or len(y_true) != len(pred_proba):
+        raise ValueError("y_true, pred_labels e pred_proba devem ter o mesmo tamanho.")
+    
     # AUC-ROC
     auc = roc_auc_score(y_true, pred_proba)
-    print(f"AUC-ROC: {auc:.3f}")
     
     # Classification report
-    print("\nRelatório de Classificação:")
-    print(classification_report(y_true, pred_labels, digits=3))
-    
+    report = classification_report(y_true, pred_labels, digits=3)
+
     # Confusion matrix
-    print("Matriz de Confusão:")
-    print(confusion_matrix(y_true, pred_labels))
+    cm = confusion_matrix(y_true, pred_labels)
 
-
-# Explicação das métricas:
-# - AUC-ROC (Área sob a curva ROC): mede a capacidade do modelo de distinguir entre classes.
-#   > Varia de 0 a 1, onde 1 indica um modelo perfeito
-
-# - Precision (Precisão): proporção de predições positivas que estavam corretas.
-#   > Quanto menor o falso positivo, maior a precisão.
-
-# - Recall (Sensibilidade): proporção de positivos reais que foram corretamente identificados.
-#   > Quanto menor o falso negativo, maior o recall.
-
-# - F1-Score: média harmônica entre Precision e Recall.
-#   > Balanceia precisão e sensibilidade, útil quando as classes são desbalanceadas.
+    return {
+        "auc-roc": auc,
+        "classification_report": report,
+        "confusion_matrix": cm
+    }
 
 
 # Metricas para o modelo xgboost.
-metrics(y_test, pred_labels_rf, pred_proba_rf)
+results_rf = metrics(y_test, pred_labels_rf, pred_proba_rf)
+# Exibição das métricas
+print(f"AUC-ROC: {results_rf['auc-roc']:.3f}")
+print("Relatório de Classificacao:")
+print(results_rf["classification_report"])
+print("Matriz de Confusão:")
+print(results_rf["confusion_matrix"])
