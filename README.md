@@ -1,6 +1,6 @@
 # Previsão cancer de mama: Malignos ou Benignos
 
-Este projeto utiliza aprendizado de máquina para identificar tumores benignos e malignos com base em um conjunto de dados que contém várias características do tumor. A análise é feita com a utilização de uma machine learning e deep learning.
+Este projeto utiliza aprendizado de máquina para identificar tumores benignos e malignos com base em um conjunto de dados que contém várias características do tumor. A análise é feita com a utilização de machine learning.
 
 # Modelo com melhor Metrica
 XGBOOST
@@ -10,13 +10,13 @@ XGBOOST
 Pandas: Para manipulação e análise de dados.
 Numpy: Para operações matemáticas e manipulação de arrays.
 Scikit-learn: Para pré-processamento de dados, como Label Encoding e One-Hot Encoding, e divisão de dados em treino e teste.
-Keras: Para construir e treinar a rede neural.
 Matplotlib: Para visualização de gráficos e métricas.
-Passos do Processo
+Seaborn: Para visualização de gráficos.
+
 
 # 1. Leitura do Dataset
 
-O conjunto de dados foi carregado a partir de um arquivo CSV contendo informações clincas de pacientes.
+O conjunto de dados foi carregado a partir de um arquivo CSV contendo características morfológicas dos tumores.
 ```python
 dados = pd.read_csv('dataset/cancer_mama.csv')
 ```
@@ -81,9 +81,10 @@ x_train, x_test, y_train, y_test = train_test_split(
    previsores, target, test_size=0.4, random_state=42
 )
 ```
-# Parametro dos Modelos
+# Parametros do Modelos
 
 ``` python
+
 xg = XGBClassifier(objective='binary:logistic', # Objetivo de classificação binária
     eval_metric='auc',            # Métrica de avaliação
     n_estimators=1000,             # Número de árvores
@@ -96,8 +97,15 @@ xg = XGBClassifier(objective='binary:logistic', # Objetivo de classificação bi
     reg_alpha=1,                   # Regularização L1
     
 )
-```
 
+```
+``` python
+
+rf = RandomForestClassifier(
+    n_estimators=1000,        # Número de árvores na floresta
+)
+
+```
 # Estrutura do Projeto
 ``` python
 triagem_assertiva/
@@ -141,7 +149,7 @@ Previsão de classificação de tumores malignos e benignos.
 Retorna a classificação dos tumores.
 Utiliza modelo de machine learning serializado com joblib
 
-# Metricas Usadas
+# Métricas Usadas
 Usando F1-score, accuracy, precision e auc como avaliação do modelo.
 
 AUC-ROC (Área sob a curva ROC): mede a capacidade do modelo de distinguir entre classes.
@@ -157,54 +165,9 @@ F1-Score: média harmônica entre Precision e Recall.
 Balanceia precisão e sensibilidade, útil quando as classes são desbalanceadas.
 
 
-``` python
-   def metrics(y_true, pred_labels, pred_proba):
-    """
-    Avalia o desempenho de um modelo de classificação binária usando AUC.
-
-    Parâmetros:
-    - y_true: valores reais (0 ou 1)
-    - pred_labels: rótulos preditos (0 ou 1)
-    - pred_proba: probabilidades preditas da classe positiva (float entre 0 e 1)
-
-    Exibe:
-    - AUC-ROC
-    - Classification Report
-    - Matriz de Confusão
-    """
-
-    # Checagem simples de segurança
-    if len(set(y_true)) < 2:
-        raise ValueError("y_true precisa ter pelo menos duas classes para calcular AUC.")
-    if len(y_true) != len(pred_labels) or len(y_true) != len(pred_proba):
-        raise ValueError("y_true, pred_labels e pred_proba devem ter o mesmo tamanho.")
-    
-    # AUC-ROC
-    auc = roc_auc_score(y_true, pred_proba)
-    
-    # Classification report
-    report = classification_report(y_true, pred_labels, digits=3)
-
-    # Confusion matrix
-    cm = confusion_matrix(y_true, pred_labels)
-
-    return {
-        "auc-roc": auc,
-        "classification_report": report,
-        "confusion_matrix": cm
-    }
-```
-
 # Predição
-``` python
-def predict_labels(model, X, threshold=0.5):
-    pred_proba = model.predict_proba(X)[:, 1]
-    pred_labels = (pred_proba >= threshold).astype(int)
-    return pred_labels, pred_proba
+Foram implementadas funções utilitárias para cálculo de métricas e geração de previsões com threshold ajustável.
 
-
-pred_labels_xg, pred_proba_xg = predict_labels(xg, x_test, threshold=0.5)
-```
 
 
 # Métricas de Avaliação do Modelo
