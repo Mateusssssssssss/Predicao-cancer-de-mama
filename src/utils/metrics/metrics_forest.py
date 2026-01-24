@@ -34,16 +34,41 @@ def metrics(y_true, pred_labels, pred_proba):
     cm = confusion_matrix(y_true, pred_labels)
 
     return {
-        "auc-roc": auc,
+        "auc_roc": auc,
         "classification_report": report,
         "confusion_matrix": cm
     }
 
 
-# Metricas para o modelo xgboost.
-results_rf = metrics(y_test, pred_labels_rf, pred_proba_rf)
+
+def log_metrics(metrics, model_name="Modelo"):
+    """
+    Loga métricas de forma estruturada e legível.
+    """
+    logger.info("Metricas %s", model_name)
+    logger.info("AUC-ROC: %.3f", metrics["auc_roc"])
+    logger.info("Relatorio de classificacao:\n%s", metrics["classification_report"])
+    logger.info("Matriz de confusao:\n%s", metrics["confusion_matrix"])
+
+
+# Explicação das métricas:
+# - AUC-ROC (Área sob a curva ROC): mede a capacidade do modelo de distinguir entre classes.
+#   > Varia de 0 a 1, onde 1 indica um modelo perfeito
+
+# - Precision (Precisão): proporção de predições positivas que estavam corretas.
+#   > Quanto menor o falso positivo, maior a precisão.
+
+# - Recall (Sensibilidade): proporção de positivos reais que foram corretamente identificados.
+#   > Quanto menor o falso negativo, maior o recall.
+
+# - F1-Score: média harmônica entre Precision e Recall.
+#   > Balanceia precisão e sensibilidade, útil quando as classes são desbalanceadas.
+
+# Metricas para o modelo random forest.
+results_rf = metrics(y_test, y_pred_test, y_proba_test)
+
 # Exibição das métricas
-print(f"AUC-ROC: {results_rf['auc-roc']:.3f}")
+print(f"AUC-ROC: {results_rf['auc_roc']:.3f}")
 print("Relatório de Classificacao:")
 print(results_rf["classification_report"])
 print("Matriz de Confusão:")

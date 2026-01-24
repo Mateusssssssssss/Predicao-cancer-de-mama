@@ -36,7 +36,7 @@ def metrics(y_true, pred_labels, pred_proba):
     cm = confusion_matrix(y_true, pred_labels)
 
     return {
-        "auc-roc": auc,
+        "auc_roc": auc,
         "classification_report": report,
         "confusion_matrix": cm
     }
@@ -48,7 +48,7 @@ def log_metrics(metrics, model_name="Modelo"):
     Loga métricas de forma estruturada e legível.
     """
     logger.info("Metricas %s", model_name)
-    logger.info("AUC-ROC: %.3f", metrics["auc-roc"])
+    logger.info("AUC-ROC: %.3f", metrics["auc_roc"])
     logger.info("Relatorio de classificacao:\n%s", metrics["classification_report"])
     logger.info("Matriz de confusao:\n%s", metrics["confusion_matrix"])
 
@@ -67,9 +67,9 @@ def log_metrics(metrics, model_name="Modelo"):
 #   > Balanceia precisão e sensibilidade, útil quando as classes são desbalanceadas.
 
 # Metricas para o modelo xgboost.
-results_xg = metrics(y_test, pred_labels_xg, pred_proba_xg)
+results_xg = metrics(y_test, y_pred_test, y_proba_test)
 # Exibição das métricas
-print(f"AUC-ROC: {results_xg['auc-roc']:.3f}")
+print(f"AUC-ROC: {results_xg['auc_roc']:.3f}")
 print("Relatório de Classificacao:")
 print(results_xg["classification_report"])
 print("Matriz de Confusão:")
