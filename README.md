@@ -158,6 +158,7 @@ Curva ROC
 Boxplots de variáveis  
 Correlação entre variáveis e target  
 Distribuição das classes  
+Distribuição das variaveis
 
 ![Curva roc](images/curva_roc.png)
 
