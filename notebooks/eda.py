@@ -5,7 +5,7 @@ from logger_config import setup_logger
 # Dados
 dados = load_data('data/cancer_mama.csv')
 
-# logger = setup_logger("EDA", "logs/eda.log")
+
 
 # Função para informação
 def informacoes(df):

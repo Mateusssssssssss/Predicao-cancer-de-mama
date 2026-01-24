@@ -1,6 +1,9 @@
 from sklearn.model_selection import cross_val_score
 from xgboost import XGBClassifier
 from notebooks.preprocess import * 
+from logger_config import setup_logger
+
+logger = setup_logger("EDA", "logs/model_xgboost.log")
 
 xg = XGBClassifier(objective='binary:logistic', # Objetivo de classificação binária
     eval_metric='auc',            # Métrica de avaliação
@@ -19,5 +22,10 @@ xg = XGBClassifier(objective='binary:logistic', # Objetivo de classificação bi
 results = cross_val_score(xg, x_train, y_train, cv=3)
 print(f'Cross Validation: {results}')
 
+logger.info(f'Cross Validation Results: {results}')
+
 # Treinamento do modelo
 xg.fit(x_train, y_train)
+
+# Log de sucesso
+logger.info("Modelo XGBoost treinado com sucesso.")

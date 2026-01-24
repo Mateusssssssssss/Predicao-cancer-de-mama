@@ -25,3 +25,15 @@ plt.grid(axis='x', linestyle='--', alpha=0.6)
 # Adiciona os valores nas barras (forma simples)
 ax.bar_label(ax.containers[0], fmt='%.3f')
 plt.show()
+
+
+#  grafico da quantidade de classes
+class_counts = dados['diagnosis'].value_counts()
+plt.figure(figsize=(8, 6))
+class_counts.plot(kind='bar', color=['skyblue', 'lightcoral'])
+plt.title('Distribuição das Classes de Diagnóstico')
+plt.xlabel('Diagnóstico')
+plt.ylabel('Quantidade')
+plt.xticks(rotation=0)
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
