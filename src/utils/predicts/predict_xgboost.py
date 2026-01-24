@@ -4,13 +4,12 @@ from logger_config import setup_logger
 logger = setup_logger("Predict_XGBoost", "logs/predict_xgboost.log")
 
 #Previsao para classes binárias
+def predict_labels(model, X, threshold=0.5):
+    pred_proba = model.predict_proba(X)[:, 1]
+    pred_labels = (pred_proba >= threshold).astype(int)
+    return pred_labels, pred_proba
 
-def prev_trashold(probabilities, threshold=0.5):
 
-    return (probabilities >= threshold).astype(int)
+pred_labels_xg, pred_proba_xg = predict_labels(xg, x_test, threshold=0.5)
 
-# Probabilidade da classe positiva (classe 1)
-pred_proba_xg = xg.predict_proba(x_test)[:, 1]
-
-# Previsão usando threshold 0.5
-pred_labels_xg = prev_trashold(pred_proba_xg, threshold=0.5)
+logger.info("Previsoes realizadas com sucesso.")
